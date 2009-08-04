@@ -1,11 +1,19 @@
 grammar BibTex
 
 	rule bib
-		.* book* .*
+		.* book* .* {
+		def label
+			return "bib"
+		end
+		}
 	end
 
 	rule book
-		title:bookTitle '{' space key:Character+ space ',' (attribute space ',' space)+ attribute '}' .*
+		title:bookTitle '{' space key:Character+ space ',' (attribute space ',' space)+ attribute '}' .* {
+			def label
+				return "book"
+			end
+		}
 	end
 
 	rule attribute
@@ -21,7 +29,11 @@ grammar BibTex
 	end
 
 	rule space
-		' '*
+		' '* {
+			def label
+				return "white"
+			end
+		}
 	end
 
 end
