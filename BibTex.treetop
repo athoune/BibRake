@@ -1,0 +1,27 @@
+grammar BibTex
+
+	rule bib
+		.* book* .*
+	end
+
+	rule book
+		title:bookTitle '{' space key:Character+ space ',' (attribute space ',' space)+ attribute '}' .*
+	end
+
+	rule attribute
+		Character+ space '=' space value
+	end
+
+	rule value
+		('"' .* '"') / ('{' .* '}')
+	end
+
+	rule bookTitle
+		'@'  Character+
+	end
+
+	rule space
+		' '*
+	end
+
+end
