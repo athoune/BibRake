@@ -3,11 +3,16 @@
 require 'rubygems'
 require 'treetop'
 
-Treetop.load "BibTex"
+Treetop.load "BibTex.tt"
 
 parser = BibTexParser.new
 
+
 f = File.open('bibliographie.bib')
-parser.parse(f.read).elements.each do |book|
-	puts book.label
+bib = parser.parse(f.read)
+puts bib
+bib.elements.each do |element|
+	puts element
+	#.inspect
+	#.label
 end
