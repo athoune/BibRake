@@ -1,0 +1,61 @@
+grammar BibTex
+
+rule bib
+	(bookTitle/ keyword / value / empty)*
+end
+
+rule empty
+	space eol
+end
+
+rule comment
+	('%' / '@comment') (!eol . )* eol
+end
+
+rule book
+	title:bookTitle space '{' space key:keyword space ',' (attribute space ',' white)* attribute '}'
+end
+
+rule attribute
+	keyword space '=' space value
+end
+
+rule value
+	'"' content:(!'"' . )* '"' {
+		def value
+			content.text_value
+		end
+	}
+	/ '{' content:(!'}' . )* '}' {
+		def value
+			content.text_value
+		end
+	}
+	/ keyword {
+		def  value
+			keyword.text_value
+		end
+	}
+end
+
+rule bookTitle
+ 	'@' keyword
+end
+
+rule keyword
+	[a-zA-Z] [-_a-zA-Z0-9]*
+end
+
+rule white
+	([ \t] / eol)*
+end
+
+rule eol
+	"\r\n" / [\n\r]
+end
+
+rule space
+	" "* 
+end
+
+end

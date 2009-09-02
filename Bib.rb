@@ -3,16 +3,32 @@
 require 'rubygems'
 require 'treetop'
 
-Treetop.load "BibTex.tt"
+Treetop.load "BibTex"
 
 parser = BibTexParser.new
 
 
 f = File.open('bibliographie.bib')
-bib = parser.parse(f.read)
-puts bib
-bib.elements.each do |element|
-	puts element
+#tree = parser.parse(f.read)
+txt = <<x
+	@BOOK{Zienkiewicz2,
+	  title = {The Finite Element Method},
+	  publisher = {Butterworth-Heinemann},
+	  year = {2000},
+	  author = {O.C. Zienkiewicz and R.L. Taylor},
+	  volume = {Solid Mechanics},
+	  edition = {Fifth Edition},
+	  file = {:home/lecarme/Documents/Biblio/Books and thesis/Finite Element Method
+		- Solid mechanics - Zienkiewicz and Taylor.pdf:PDF},
+	  owner = {lecarme},
+	  timestamp = {27.01.2009}
+	}
+x
+txt = "\n\nplop\n{toto}\n@BOOK\n"
+tree = parser.parse(txt)
+puts txt, tree
+tree.elements.each do |element|
+	puts element, element.text_value
 	#.inspect
 	#.label
 end
