@@ -1,7 +1,7 @@
 grammar BibTex
 
 rule bib
-	(bookTitle/ keyword / value / empty)*
+	(empty / comment / book )*
 end
 
 rule empty
@@ -13,11 +13,19 @@ rule comment
 end
 
 rule book
-	title:bookTitle space '{' space key:keyword space ',' (attribute space ',' white)* attribute '}'
+	space '@' type:keyword white '{' white title:keyword comma attributes '}' white
+end
+
+rule attributes
+	attribute (comma attribute)*
+end
+
+rule comma
+	white ',' white
 end
 
 rule attribute
-	keyword space '=' space value
+	white keyword space '=' space value white
 end
 
 rule value
@@ -38,10 +46,6 @@ rule value
 	}
 end
 
-rule bookTitle
- 	'@' keyword
-end
-
 rule keyword
 	[a-zA-Z] [-_a-zA-Z0-9]*
 end
@@ -55,7 +59,7 @@ rule eol
 end
 
 rule space
-	" "* 
+	[ \t]* 
 end
 
 end
