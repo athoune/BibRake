@@ -1,7 +1,7 @@
 grammar BibTex
 
 rule bib
-	(empty / comment / book )*
+	(comment / book / empty)*
 end
 
 rule empty
@@ -13,7 +13,7 @@ rule comment
 end
 
 rule book
-	space '@' type:keyword white '{' white title:keyword comma attributes '}' white
+	white '@' type:keyword white '{' white title:keyword comma attributes '}' white
 end
 
 rule attributes
@@ -34,7 +34,7 @@ rule value
 			content.text_value
 		end
 	}
-	/ '{' content:(!'}' . )* '}' {
+	/ block {
 		def value
 			content.text_value
 		end
@@ -44,6 +44,10 @@ rule value
 			keyword.text_value
 		end
 	}
+end
+
+rule block
+	'{' (block / ![{}] .)* '}'
 end
 
 rule keyword
